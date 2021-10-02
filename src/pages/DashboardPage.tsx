@@ -5,7 +5,7 @@ export default function DashboardPage() {
     return (
         <div className="d-flex h-100">
             <SideNavbar />
-            <div className="center">
+            <div className="center flex-1" >
                 Book
             </div>
         </div>
