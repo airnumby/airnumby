@@ -11,14 +11,6 @@ const firebaseDevConfig = {
     measurementId: "G-SM1LN62RM3"
 };
 
-const firebaseProdConfig = {
-    apiKey: "AIzaSyBlQZVXg4JOca7_KjxzBtxnENalEB5XiFw",
-    authDomain: "johan-friends.firebaseapp.com",
-    projectId: "johan-friends",
-    storageBucket: "johan-friends.appspot.com",
-    messagingSenderId: "363179700047",
-    appId: "1:363179700047:web:7577d81e7441404af59f3a",
-    measurementId: "G-DPKEJL4KWF"
-};
+const firebaseProdConfig = firebaseDevConfig;
 
 export const firebaseConfig = config.isProduction ? firebaseProdConfig : firebaseDevConfig;
