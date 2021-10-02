@@ -1,18 +1,22 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
+import DashboardPage from './pages/DashboardPage';
+import './App.scss';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h3>
-          AirNumby
-        </h3>
-
-      </header>
-    </div>
+    <Router>
+    <Switch>
+      <Route>
+        <DashboardPage />
+      </Route>
+    </Switch>
+  </Router>
   );
 }
 

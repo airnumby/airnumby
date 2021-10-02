@@ -1,0 +1,45 @@
+
+
+@import "./variables";
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import "./bootswatch";
+
+body,
+html,
+#root {
+  height: 100%;
+  min-height: 100vh;
+  background: $dark;
+}
+
+a,
+a:hover,
+a:visited {
+  color: inherit;
+}
+
+.container {
+  max-width: 900px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.invisible {
+  opacity: 0;
+}
