@@ -22,12 +22,6 @@ export default function SideNavbar() {
             icon: Book,
             text: text.bookKeeping,
             isActive: false,
-        },
-        {
-            path: `/${CoreNavItems.Bookkeeping}2`,
-            icon: Book,
-            text: text.bookKeeping,
-            isActive: false,
         }
     ];
 

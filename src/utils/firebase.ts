@@ -1,3 +1,4 @@
+
 export function toFirebaseDoc<Type>(obj: Type): any {
     const data: any = { ...obj };
     delete data.id;
