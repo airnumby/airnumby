@@ -82,13 +82,13 @@ a:visited {
 }
 
 .navbar-active {
-  background-color: $primary-dark;
-
-  .navbar-icon {
-    color: $secondary
-  }
+  @extend .navbar-item:hover;
 
   .navbar-arrow {
     transform: rotate(90deg);
   }
+}
+
+.navbar-brand {
+  text-transform: none;
 }
