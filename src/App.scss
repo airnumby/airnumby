@@ -1,7 +1,10 @@
 $primary: #ed8c72;
+$primary-dark: #da846c;
 $secondary: #2988BC;
 $light: #F4EADE;
 $dark: #2f496e;
+
+$transition-speed: 0.4s;
 
 @import "./variables";
 @import "../node_modules/bootstrap/scss/bootstrap";
@@ -19,6 +22,7 @@ a,
 a:hover,
 a:visited {
   color: inherit;
+  text-decoration: none;
 }
 
 .container {
@@ -45,4 +49,46 @@ a:visited {
 
 .invisible {
   opacity: 0;
+}
+
+////////
+// Navbar
+////////
+
+.navbar-item {
+  padding: 1rem;
+  transition: background-color $transition-speed;
+}
+
+.navbar-icon {
+  transition: color $transition-speed;
+
+  svg {
+    height: 20px;
+    width: 20px;
+  }
+}
+
+.navbar-arrow {
+  transition: transform $transition-speed;
+}
+
+.navbar-item:hover {
+  background-color: $primary-dark;
+
+  .navbar-icon {
+    color: $secondary
+  }
+}
+
+.navbar-active {
+  background-color: $primary-dark;
+
+  .navbar-icon {
+    color: $secondary
+  }
+
+  .navbar-arrow {
+    transform: rotate(90deg);
+  }
 }
