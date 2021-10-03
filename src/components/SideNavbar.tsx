@@ -14,17 +14,10 @@ interface NavItem {
 export default function SideNavbar() {
     const text = useText();
     const location = useLocation();
-    console.log(location)
 
     const navItems: NavItem[] = [
         {
             path: `/${CoreNavItems.Bookkeeping}`,
-            icon: Book,
-            text: text.bookKeeping,
-            isActive: false,
-        },
-        {
-            path: `/${CoreNavItems.Bookkeeping}2`,
             icon: Book,
             text: text.bookKeeping,
             isActive: false,
@@ -43,7 +36,7 @@ export default function SideNavbar() {
             <Link to='/'><div className="navbar-brand navbar-active pb-3 pt-3 me-0 center">{text.brand}</div></Link>
             <div className="flex-1 d-flex flex-column text-light">
                 {navItems.map(navItem =>
-                    <Link to={navItem.path}>
+                    <Link key={navItem.path} to={navItem.path}>
                         <div className={`navbar-item d-flex ${navItem.isActive ? 'navbar-active' : ''}`}>
                             <div className="navbar-icon">
                                 {navItem.icon}
