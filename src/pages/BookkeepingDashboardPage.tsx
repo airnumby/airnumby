@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import SideNavbar from '../components/SideNavbar'
 import { initializeApp } from "firebase/app";
-import { collection, getDocs, getFirestore, onSnapshot, query } from "firebase/firestore";
+import { collection, getFirestore, onSnapshot, query } from "firebase/firestore";
 import firebaseConfig from '../utils/firebaseConfig';
 import { fromFirebaseDocs } from '../utils/firebase';
 import JournalEntry from '../models/JournalEntry';
