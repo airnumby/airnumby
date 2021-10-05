@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import SideNavbar from '../components/SideNavbar'
-import { initializeApp } from "firebase/app";
-import { collection, getFirestore, onSnapshot, query } from "firebase/firestore";
-import firebaseConfig from '../utils/firebaseConfig';
+import { collection, onSnapshot, query } from "firebase/firestore";
 import { fromFirebaseDocs } from '../utils/firebase';
 import JournalEntry from '../models/JournalEntry';
-
-initializeApp(firebaseConfig);
+import { useDb } from '../hooks/firebaseHooks';
 
 
 export default function BookkeepingDashboardPage() {
-
-    const db = getFirestore();
+    const db = useDb();
     const [entries, setEntries] = useState<JournalEntry[]>([])
 
     useEffect(() => {

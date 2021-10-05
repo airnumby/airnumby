@@ -52,6 +52,24 @@ a:visited {
 }
 
 ////////
+// Login
+////////
+$login-icon-size: 20px;
+
+.login-icon {
+  height: $login-icon-size;
+  width: $login-icon-size;
+  margin: 0.2rem;
+  margin-right: 1rem;
+}
+
+.login-btn {
+  width: 15rem;
+  display: flex;
+  align-items: center;
+}
+
+////////
 // Navbar
 ////////
 
