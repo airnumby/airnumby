@@ -6,6 +6,8 @@ const text = {
     mainBook: 'Main Book',
 
     loginWithGoogle: 'Login with Google',
+
+    error: 'That did not go according the plan 😨'
 };
 
 export default text;

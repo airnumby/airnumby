@@ -1,14 +1,15 @@
 import React from 'react'
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { useAuth } from '../hooks/firebaseHooks';
+import { useFirebaseAuth } from '../hooks/firebaseHooks';
 import { useText } from '../contexts/TextContext';
 import googleLogo from '../assets/google.svg';
+import { toast } from 'react-toastify';
 
 
 
 export default function LoginPage() {
     const text = useText();
-    const { auth, provider } = useAuth();
+    const { auth, provider } = useFirebaseAuth();
 
     const login = () => {
         signInWithPopup(auth, provider)
@@ -21,7 +22,8 @@ export default function LoginPage() {
                 console.log(user, token);
                 // ...
             }).catch((error) => {
-                console.error(error);
+                console.error('failed to login', error);
+                toast.error(text.error);
             });
     }
 

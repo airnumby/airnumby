@@ -14,4 +14,4 @@ const auth = getAuth();
 const provider = new GoogleAuthProvider();
 
 export const useDb = () => db;
-export const useAuth = () => ({ auth, provider })
+export const useFirebaseAuth = () => ({ auth, provider })
