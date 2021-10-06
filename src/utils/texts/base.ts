@@ -6,6 +6,7 @@ const text = {
     mainBook: 'Main Book',
 
     loginWithGoogle: 'Login with Google',
+    logout: 'Logout',
 
     error: 'That did not go according the plan 😨'
 };

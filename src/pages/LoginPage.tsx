@@ -1,27 +1,26 @@
 import React from 'react'
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
 import { useFirebaseAuth } from '../hooks/firebaseHooks';
 import { useText } from '../contexts/TextContext';
 import googleLogo from '../assets/google.svg';
 import { toast } from 'react-toastify';
+import { useAuth } from '../contexts/AuthContext';
+import { Redirect } from 'react-router';
 
 
 
 export default function LoginPage() {
     const text = useText();
     const { auth, provider } = useFirebaseAuth();
+    const currentUser = useAuth();
+
+    if (currentUser) {
+        return <Redirect to={`/`} />
+    }
 
     const login = () => {
         signInWithPopup(auth, provider)
-            .then((result) => {
-                // This gives you a Google Access Token. You can use it to access the Google API.
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                const token = credential?.accessToken;
-                // The signed-in user info.
-                const user = result.user;
-                console.log(user, token);
-                // ...
-            }).catch((error) => {
+            .catch((error) => {
                 console.error('failed to login', error);
                 toast.error(text.error);
             });

@@ -110,3 +110,11 @@ $login-icon-size: 20px;
 .navbar-brand {
   text-transform: none;
 }
+
+.logout {
+  background-color: $secondary
+}
+
+.logout:hover {
+  background-color: $dark;
+}

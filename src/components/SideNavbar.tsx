@@ -1,8 +1,10 @@
+import { signOut } from '@firebase/auth';
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { ArrowFrontSVG, Book } from '../assets/svgs';
+import { ArrowFrontSVG, Book, LogoutSvg } from '../assets/svgs';
 import { CoreNavItems } from '../constants/routes';
 import { useText } from '../contexts/TextContext'
+import { useFirebaseAuth } from '../hooks/firebaseHooks';
 
 interface NavItem {
     path: string,
@@ -12,6 +14,7 @@ interface NavItem {
 }
 
 export default function SideNavbar() {
+    const { auth } = useFirebaseAuth();
     const text = useText();
     const location = useLocation();
 
@@ -52,6 +55,17 @@ export default function SideNavbar() {
                         </div>
                     </Link>
                 )}
+
+
+                <div className={`navbar-item pointer d-flex logout`} style={{ marginTop: 'auto' }}
+                    onClick={() => signOut(auth)}>
+                    <div className="navbar-icon">
+                        {LogoutSvg}
+                    </div>
+                    <div className="ms-1">
+                        {text.logout}
+                    </div>
+                </div>
             </div>
         </div>
     )
