@@ -5,6 +5,11 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    match /users/{userId} {
+      allow read: if (request.auth.uid == userId)
+      allow write: if (request.auth.uid == userId)
+    }
+
     match /journalEntries/{document=**} {
       allow read: if true;
     }
