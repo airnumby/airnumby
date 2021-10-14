@@ -1,6 +1,10 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isAuth() {
+      return request.auth.uid != null;
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }
@@ -8,6 +12,15 @@ service cloud.firestore {
     match /users/{userId} {
       allow read: if (request.auth.uid == userId)
       allow write: if (request.auth.uid == userId)
+    }
+
+    match /organizations/{orgId} {
+      allow read:
+        if resource.data.owner == request.auth.uid;
+      allow create:
+        if request.resource.data.owner == request.auth.uid;
+      allow update:
+        if resource.data.owner == request.auth.uid;
     }
 
     match /journalEntries/{document=**} {

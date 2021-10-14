@@ -5,6 +5,7 @@ import { AuthUser } from "../models/AuthUser";
 import { getDoc, setDoc } from "@firebase/firestore";
 import { doc } from "firebase/firestore";
 import { UserData } from "../models/UserData";
+import Loading from "../components/Loading";
 
 
 const authContext = React.createContext<AuthUser | null>(null);
@@ -41,7 +42,7 @@ export function AuthProvider({ children }: any) {
                 const authUser: AuthUser = {
                     id: uid,
                     isAdmin,
-                    userDate: userData
+                    userData
                 }
                 setCurrentUser(authUser)
             } else {
@@ -51,12 +52,15 @@ export function AuthProvider({ children }: any) {
         })
 
         return unsubscribe
-    }, [auth])
+    }, [auth, db])
 
+    if (loading) {
+        return <Loading />
+    }
 
     return (
         <authContext.Provider value={currentUser} >
-            {!loading && children}
+            {children}
         </authContext.Provider>
     )
 }

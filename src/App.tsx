@@ -15,27 +15,34 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
 import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
+import OrganizationProvider from './contexts/OrganizationContext';
+import SignupPage from './pages/SignupPage';
 
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <Switch>
-          <Route path={`/${CoreNavItems.Login}`}>
-            <LoginPage />
-          </Route>
+      <OrganizationProvider>
+        <Router>
+          <Switch>
+            <Route path={`/${CoreNavItems.Login}`}>
+              <LoginPage />
+            </Route>
 
+            <PrivateRoute orgNotNeeded={true} path={`/${CoreNavItems.Signup}`}>
+              <SignupPage />
+            </PrivateRoute>
 
-          <PrivateRoute path={`/${CoreNavItems.Bookkeeping}`}>
-            <BookkeepingDashboardPage />
-          </PrivateRoute>
-          <PrivateRoute>
-            <DashboardPage />
-          </PrivateRoute>
-        </Switch>
+            <PrivateRoute path={`/${CoreNavItems.Bookkeeping}`}>
+              <BookkeepingDashboardPage />
+            </PrivateRoute>
+            <PrivateRoute>
+              <DashboardPage />
+            </PrivateRoute>
+          </Switch>
 
-        <ToastContainer />
-      </Router>
+          <ToastContainer />
+        </Router>
+      </OrganizationProvider>
     </AuthProvider>
   );
 }
