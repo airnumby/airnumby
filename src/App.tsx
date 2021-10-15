@@ -20,30 +20,33 @@ import SignupPage from './pages/SignupPage';
 
 function App() {
   return (
-    <AuthProvider>
-      <OrganizationProvider>
-        <Router>
-          <Switch>
-            <Route path={`/${CoreNavItems.Login}`}>
-              <LoginPage />
-            </Route>
+    <>
+      <AuthProvider>
+        <OrganizationProvider>
+          <Router>
+            <Switch>
+              <Route path={`/${CoreNavItems.Login}`}>
+                <LoginPage />
+              </Route>
 
-            <PrivateRoute orgNotNeeded={true} path={`/${CoreNavItems.Signup}`}>
-              <SignupPage />
-            </PrivateRoute>
+              <PrivateRoute orgNotNeeded={true} path={`/${CoreNavItems.Signup}`}>
+                <SignupPage />
+              </PrivateRoute>
 
-            <PrivateRoute path={`/${CoreNavItems.Bookkeeping}`}>
-              <BookkeepingDashboardPage />
-            </PrivateRoute>
-            <PrivateRoute>
-              <DashboardPage />
-            </PrivateRoute>
-          </Switch>
+              <PrivateRoute path={`/${CoreNavItems.Bookkeeping}`}>
+                <BookkeepingDashboardPage />
+              </PrivateRoute>
+              <PrivateRoute>
+                <DashboardPage />
+              </PrivateRoute>
+            </Switch>
 
-          <ToastContainer />
-        </Router>
-      </OrganizationProvider>
-    </AuthProvider>
+          </Router>
+
+        </OrganizationProvider>
+      </AuthProvider>
+      <ToastContainer />
+    </>
   );
 }
 

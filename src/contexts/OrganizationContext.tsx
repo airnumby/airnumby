@@ -37,8 +37,10 @@ export default function OrganizationProvider(props: Props) {
                     setLoading(false);
                 }
             ).catch((e) => {
-                console.error(e);
+                console.error('Failed to get current org', e);
                 toast.error(text.error)
+                setOrganization(null);
+                setLoading(false);
             })
 
         } else {

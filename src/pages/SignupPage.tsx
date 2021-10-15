@@ -1,7 +1,8 @@
 import { addDoc, collection, doc, updateDoc } from '@firebase/firestore';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router';
 import { useAuth } from '../contexts/AuthContext';
+import { useOrganization } from '../contexts/OrganizationContext';
 import { useText } from '../contexts/TextContext'
 import { useDb } from '../hooks/firebaseHooks';
 import { Organization } from '../models/Organization';
@@ -11,6 +12,7 @@ export default function SignupPage() {
     const text = useText();
     const db = useDb();
     const currentUser = useAuth();
+    const currentOrg = useOrganization();
     const emptyOrganization: Organization = {
         owner: currentUser?.id || '',
         name: '',
@@ -23,6 +25,12 @@ export default function SignupPage() {
 
     const isValid = organization.name && organization.orgNum;
 
+    useEffect(() => {
+        if (currentOrg?.id) {
+            setRedirect('/')
+        }
+    }, [currentOrg?.id])
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -31,9 +39,7 @@ export default function SignupPage() {
 
         const userDocRef = doc(db, 'users', currentUser?.id || '');
         await updateDoc(userDocRef, { currentOrganization: addedOrg.id })
-        setRedirect('/');
     }
-
 
     if (redirect) {
         return <Redirect to={redirect} />
