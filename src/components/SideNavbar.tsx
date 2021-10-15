@@ -3,6 +3,7 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { ArrowFrontSVG, Book, LogoutSvg } from '../assets/svgs';
 import { CoreNavItems } from '../constants/routes';
+import { useOrganization } from '../contexts/OrganizationContext';
 import { useText } from '../contexts/TextContext'
 import { useFirebaseAuth } from '../hooks/firebaseHooks';
 
@@ -17,6 +18,7 @@ export default function SideNavbar() {
     const { auth } = useFirebaseAuth();
     const text = useText();
     const location = useLocation();
+    const organization = useOrganization();
 
     const navItems: NavItem[] = [
         {
@@ -24,7 +26,7 @@ export default function SideNavbar() {
             icon: Book,
             text: text.bookKeeping,
             isActive: false,
-        }
+        },
     ];
 
     const activ = navItems.find(navItem => navItem.path === location.pathname);
@@ -36,7 +38,12 @@ export default function SideNavbar() {
     return (
         <div className="d-flex flex-column navbar-dark bg-primary h-100" style={{ width: '250px' }}>
 
-            <Link to='/'><div className="navbar-brand navbar-active pb-3 pt-3 me-0 center">{text.brand}</div></Link>
+            <Link to='/'>
+                <div className="navbar-brand navbar-active pt-3 me-0 center">{text.brand}</div>
+                <div className="navbar-active text-light pb-3 me-0 center">{organization?.name} ({organization?.orgNum})</div>
+            </Link>
+
+
             <div className="flex-1 d-flex flex-column text-light">
                 {navItems.map(navItem =>
                     <Link key={navItem.path} to={navItem.path}>
