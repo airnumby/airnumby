@@ -2,10 +2,11 @@ import React, { useContext, useState, useEffect } from "react"
 import { onAuthStateChanged } from "firebase/auth";
 import { useDb, useFirebaseAuth } from "../hooks/firebaseHooks";
 import { AuthUser } from "../models/AuthUser";
-import { getDoc, setDoc } from "@firebase/firestore";
+import { getDoc, onSnapshot, setDoc } from "@firebase/firestore";
 import { doc } from "firebase/firestore";
 import { UserData } from "../models/UserData";
 import Loading from "../components/Loading";
+import { fromFirebaseDoc } from "../utils/firebase";
 
 
 const authContext = React.createContext<AuthUser | null>(null);
@@ -53,6 +54,23 @@ export function AuthProvider({ children }: any) {
 
         return unsubscribe
     }, [auth, db])
+
+    useEffect(() => {
+        if (currentUser?.id) {
+            const userRef = doc(db, "users", currentUser?.id);
+            return onSnapshot(userRef, async (userDataDoc) => {
+                const newUserData = fromFirebaseDoc<UserData>(userDataDoc);
+                if (newUserData.currentOrganization !== currentUser.userData?.currentOrganization) {
+
+                    const authUser: AuthUser = {
+                        ...currentUser,
+                        userData: newUserData
+                    }
+                    setCurrentUser(authUser)
+                }
+            })
+        }
+    }, [db, currentUser])
 
     if (loading) {
         return <Loading />
