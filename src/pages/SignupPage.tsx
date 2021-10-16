@@ -22,14 +22,15 @@ export default function SignupPage() {
     }
     const [organization, setOrganization] = useState<Organization>(emptyOrganization);
     const [redirect, setRedirect] = useState('');
+    const [createdOrg, setCreatedOrg] = useState('');
 
     const isValid = organization.name && organization.orgNum;
 
     useEffect(() => {
-        if (currentOrg?.id) {
+        if (createdOrg && currentOrg?.id === createdOrg) {
             setRedirect('/')
         }
-    }, [currentOrg?.id])
+    }, [currentOrg?.id, createdOrg])
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -37,6 +38,7 @@ export default function SignupPage() {
         const colRef = collection(db, 'organizations')
         const addedOrg = await addDoc(colRef, organization);
 
+        setCreatedOrg(addedOrg.id);
         const userDocRef = doc(db, 'users', currentUser?.id || '');
         await updateDoc(userDocRef, { currentOrganization: addedOrg.id })
     }
@@ -46,8 +48,8 @@ export default function SignupPage() {
     }
 
     return (
-        <div className="center flex-column container">
-            <h2>{text.newOrganization}</h2>
+        <div className="center flex-column container text-light">
+            <h2 className="mt-5">{text.newOrganization}</h2>
             <p>{text.newOrganizationDescription}</p>
 
             <form onSubmit={handleSubmit}>
