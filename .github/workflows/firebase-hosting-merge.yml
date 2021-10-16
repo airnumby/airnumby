@@ -18,3 +18,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_AIRNUMBY }}'
           channelId: live
           projectId: airnumby
+      - run: "curl -X POST -H 'Content-type: application/json' --data '{\"text\":\":partyparrot: New Version of app was deployed https://app.airnumby.com\"}' ${{ secrets.SLACK_WEBHOOK }}"
