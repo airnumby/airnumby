@@ -23,6 +23,10 @@ service cloud.firestore {
         if resource.data.owner == request.auth.uid;
     }
 
+    match /charts/{chartId} {
+      allow read: if isAuth();
+    }
+
     match /journalEntries/{document=**} {
       allow read: if true;
     }

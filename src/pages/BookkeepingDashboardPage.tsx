@@ -1,31 +1,18 @@
-import React, { useEffect, useState } from 'react'
 import SideNavbar from '../components/SideNavbar'
-import { collection, onSnapshot, query } from "firebase/firestore";
-import { fromFirebaseDocs } from '../utils/firebase';
-import JournalEntry from '../models/JournalEntry';
-import { useDb } from '../hooks/firebaseHooks';
+import { useCharts } from '../contexts/OrganizationContext';
 
 
 export default function BookkeepingDashboardPage() {
-    const db = useDb();
-    const [entries, setEntries] = useState<JournalEntry[]>([])
+    const charts = useCharts();
 
-    useEffect(() => {
-        const q = query(collection(db, "journalEntries"));
-        return onSnapshot(q, (querySnapshot) => {
-            const newEntries = fromFirebaseDocs<JournalEntry>(querySnapshot.docs);
-            setEntries(newEntries);
-        });
-    }, [db])
-
-
+    const accounts = Array.from(charts.accounts.keys());
 
     return (
         <div className="d-flex h-100">
             <SideNavbar />
-            <div className="center flex-1 d-flex flex-column" >
-                {entries.map(entry =>
-                    <div>{entry.id}</div>
+            <div className="flex-1 d-flex flex-column mh-100 overflow-auto ms-2" >
+                {accounts.map(account =>
+                    <div key={account}>{account} - {charts.accounts.get(account)?.name}</div>
                 )}
             </div>
         </div>
