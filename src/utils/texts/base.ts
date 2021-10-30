@@ -6,11 +6,15 @@ const text = {
     country: 'Country',
     save: 'Save',
     create: 'Create',
+    credit: 'Credit',
+    debit: 'Debit',
+    account: 'Account',
 
 
     bookKeeping: 'Bookkeeping',
-    addJournal: 'Add Journal Entry',
+    newEntry: 'New Entry',
     mainBook: 'Main Book',
+    noMatch: 'Credit and debit sides do not match.',
 
     loginWithGoogle: 'Login with Google',
     logout: 'Logout',

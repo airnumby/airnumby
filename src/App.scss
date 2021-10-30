@@ -74,9 +74,15 @@ $login-icon-size: 20px;
 ////////
 
 .navbar-item {
-  padding: 1rem;
+  padding: 1rem 1rem .3rem 1rem;
   transition: background-color $transition-speed;
 }
+
+.sub-item {
+  padding: 0.3rem 1rem 0.3rem 3rem;
+  font-size: smaller;
+}
+
 
 .navbar-icon {
   transition: color $transition-speed;

@@ -4,3 +4,7 @@ export enum CoreNavItems {
 
     Bookkeeping = 'bookkeeping',
 }
+
+export enum BookkeepingNavItems {
+    NewEntry = 'new-entry'
+}
