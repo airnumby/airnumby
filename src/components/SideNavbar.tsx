@@ -30,7 +30,7 @@ export default function SideNavbar() {
             subItems: [
                 {
                     path: `/${CoreNavItems.Bookkeeping}/${BookkeepingNavItems.NewEntry}`,
-                    text: text.newOrganization,
+                    text: text.newEntry,
                     isActive: false,
                 }
             ]
@@ -74,10 +74,10 @@ export default function SideNavbar() {
 
 
             <div className="flex-1 d-flex flex-column text-light">
-                {navItems.map(navItem => <>
+                {navItems.map(navItem => <React.Fragment key={`root_${navItem.path}`}>
                     {renderNavItem(navItem)}
                     {navItem.isActive && (navItem.subItems || []).map(subItem => renderNavItem(subItem, true))}
-                </>
+                </React.Fragment>
                 )}
 
 

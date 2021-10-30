@@ -9,11 +9,13 @@ const text = {
     credit: 'Credit',
     debit: 'Debit',
     account: 'Account',
+    description: 'Description',
 
 
     bookKeeping: 'Bookkeeping',
     newEntry: 'New Entry',
     mainBook: 'Main Book',
+    bookingDate: 'Booking Date',
     noMatch: 'Credit and debit sides do not match.',
 
     loginWithGoogle: 'Login with Google',

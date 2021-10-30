@@ -8,7 +8,7 @@ export default function BookkeepingDashboardPage() {
     const accounts = Array.from(charts.accounts.keys());
 
     return (
-        <div className="d-flex h-100">
+        <div className="d-flex h-100 text-light">
             <SideNavbar />
             <div className="flex-1 d-flex flex-column mh-100 overflow-auto ms-2" >
                 {accounts.map(account =>
