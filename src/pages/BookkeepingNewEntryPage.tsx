@@ -1,6 +1,5 @@
-import React from 'react'
-import { Controller, SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
-import Select, { createFilter } from 'react-select'
+import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import SearchSelect from '../components/SearchSelect';
 import SideNavbar from '../components/SideNavbar';
 import { useCharts } from '../contexts/OrganizationContext';
 import { useText } from '../contexts/TextContext';
@@ -71,33 +70,12 @@ export default function BookkeepingNewEntryPage() {
                                 {fields.map((field, index) => (
                                     <tr key={field.id} >
                                         <td>
-                                            <Controller
+                                            <SearchSelect
                                                 control={control}
                                                 name={`accounts.${index}.account`}
-                                                render={controlProps => {
-                                                    const { field: { onChange, onBlur } } = controlProps;
-                                                    const handleChange = (valueObject: any) => {
-                                                        if (index === fields.length - 1) {
-                                                            append({}, { shouldFocus: false });
-                                                        }
-                                                        onChange(valueObject.value);
-                                                    }
-
-                                                    return <Select options={options}
-                                                        filterOption={createFilter({ ignoreAccents: false })}
-                                                        isSearchable={true}
-                                                        className="flex-2 text-dark p-0"
-                                                        theme={theme => ({
-                                                            ...theme,
-                                                            colors: {
-                                                                ...theme.colors,
-                                                                primary: 'var(--bs-primary)'
-                                                            }
-                                                        })}
-                                                        onChange={handleChange}
-                                                        onBlur={onBlur}
-                                                    />
-                                                }} />
+                                                options={options}
+                                                onChange={() => index === fields.length - 1 && append({}, { shouldFocus: false })}
+                                            />
                                         </td>
                                         <td className="w-25">
                                             <input type="number" className="form-control flex-1 bg-ligth"
