@@ -1,5 +1,5 @@
 export default interface JournalEntryRecord {
-    account: number,
+    account: string,
     credit: number,
     debit: number,
 }

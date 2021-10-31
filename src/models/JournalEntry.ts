@@ -1,8 +1,9 @@
 import JournalEntryRecord from "./JournalEntryRecord";
 
 export default interface JournalEntry {
-    id: string,
+    id?: string,
     description: string,
     created: Date,
-    rows: JournalEntryRecord[],
+    bookingDate: Date,
+    records: JournalEntryRecord[],
 }
