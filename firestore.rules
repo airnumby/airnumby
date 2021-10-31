@@ -5,6 +5,10 @@ service cloud.firestore {
       return request.auth.uid != null;
     }
 
+    function ownsOrganization(orgId) {
+      return orgId in request.auth.token.ownedOrganizations || [];
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }
@@ -21,14 +25,16 @@ service cloud.firestore {
         if request.resource.data.owner == request.auth.uid;
       allow update:
         if resource.data.owner == request.auth.uid;
+
+      match /journalEntries/{document=**} {
+        allow read: if ownsOrganization(orgId);
+        allow create: if ownsOrganization(orgId);
+      }
     }
 
     match /charts/{chartId} {
       allow read: if isAuth();
     }
 
-    match /journalEntries/{document=**} {
-      allow read: if true;
-    }
   }
 }

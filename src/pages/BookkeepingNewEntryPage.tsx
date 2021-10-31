@@ -1,10 +1,13 @@
-import React from 'react'
-import { Controller, SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
-import Select, { createFilter } from 'react-select'
+import { addDoc, collection } from '@firebase/firestore';
+import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import SearchSelect from '../components/SearchSelect';
 import SideNavbar from '../components/SideNavbar';
-import { useCharts } from '../contexts/OrganizationContext';
+import { useCharts, useOrganization } from '../contexts/OrganizationContext';
 import { useText } from '../contexts/TextContext';
+import { useDb } from '../hooks/firebaseHooks';
+import JournalEntry from '../models/JournalEntry';
 import { getTodayInputValue } from '../utils/date';
+import { toFirebaseDoc } from '../utils/firebase';
 
 interface AccountFormInput {
     account: string,
@@ -15,29 +18,45 @@ interface AccountFormInput {
 interface FormInput {
     description: string,
     bookingDate: Date | string,
-    accounts: AccountFormInput[]
+    records: AccountFormInput[]
 }
 
 export default function BookkeepingNewEntryPage() {
     const charts = useCharts();
     const text = useText();
+    const organization = useOrganization();
+    const db = useDb();
+
     const { register, handleSubmit, control } = useForm<FormInput>({
         defaultValues: {
             bookingDate: getTodayInputValue(),
-            accounts: [
+            records: [
                 {}
             ]
         }
     });
     const { fields, append } = useFieldArray({
         control,
-        name: 'accounts',
+        name: 'records',
     });
 
     const accounts = Object.keys(charts.accounts);
 
-    const onSubmit: SubmitHandler<FormInput> = data => {
-        console.log('This should like safe stuff', data);
+    const onSubmit: SubmitHandler<FormInput> = async data => {
+        const nonEmptyRecords = data.records.filter(record => record.credit || record.debit)
+
+        const newEntry: JournalEntry = {
+            description: data.description,
+            created: new Date(),
+            bookingDate: new Date(data.bookingDate),
+            records: nonEmptyRecords.map(record => ({
+                account: record.account,
+                credit: record.credit || 0,
+                debit: record.debit || 0
+            }))
+        }
+
+        await addDoc(collection(db, 'organizations', organization?.id || '', 'journalEntries'), toFirebaseDoc(newEntry));
     }
 
     const options = accounts.map(accountNumber => ({
@@ -71,43 +90,22 @@ export default function BookkeepingNewEntryPage() {
                                 {fields.map((field, index) => (
                                     <tr key={field.id} >
                                         <td>
-                                            <Controller
+                                            <SearchSelect
                                                 control={control}
-                                                name={`accounts.${index}.account`}
-                                                render={controlProps => {
-                                                    const { field: { onChange, onBlur } } = controlProps;
-                                                    const handleChange = (valueObject: any) => {
-                                                        if (index === fields.length - 1) {
-                                                            append({}, { shouldFocus: false });
-                                                        }
-                                                        onChange(valueObject.value);
-                                                    }
-
-                                                    return <Select options={options}
-                                                        filterOption={createFilter({ ignoreAccents: false })}
-                                                        isSearchable={true}
-                                                        className="flex-2 text-dark p-0"
-                                                        theme={theme => ({
-                                                            ...theme,
-                                                            colors: {
-                                                                ...theme.colors,
-                                                                primary: 'var(--bs-primary)'
-                                                            }
-                                                        })}
-                                                        onChange={handleChange}
-                                                        onBlur={onBlur}
-                                                    />
-                                                }} />
+                                                name={`records.${index}.account`}
+                                                options={options}
+                                                onChange={() => index === fields.length - 1 && append({}, { shouldFocus: false })}
+                                            />
                                         </td>
                                         <td className="w-25">
                                             <input type="number" className="form-control flex-1 bg-ligth"
                                                 min="0"
-                                                {...register(`accounts.${index}.debit`, { valueAsNumber: true })} />
+                                                {...register(`records.${index}.debit`, { valueAsNumber: true })} />
                                         </td>
                                         <td className="w-25">
                                             <input type="number" className="form-control flex-1 bg-ligth"
                                                 min="0"
-                                                {...register(`accounts.${index}.credit`, { valueAsNumber: true })} />
+                                                {...register(`records.${index}.credit`, { valueAsNumber: true })} />
                                         </td>
                                     </tr>
                                 ))}

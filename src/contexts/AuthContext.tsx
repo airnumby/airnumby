@@ -25,8 +25,6 @@ export function AuthProvider({ children }: any) {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (firebaseAuthUser) => {
             if (firebaseAuthUser) {
-                const result = await firebaseAuthUser.getIdTokenResult();
-                const isAdmin = (!!result?.claims?.isAdmin) || false
                 const uid = firebaseAuthUser.uid;
 
                 const userRef = doc(db, "users", uid);
@@ -35,6 +33,7 @@ export function AuthProvider({ children }: any) {
 
                 if (userSnap.exists()) {
                     userData = userSnap.data();
+                    // delete userData.claimsUpdated;
                 } else {
                     userData = {};
                     await setDoc<UserData>(userRef, userData);
@@ -42,8 +41,8 @@ export function AuthProvider({ children }: any) {
 
                 const authUser: AuthUser = {
                     id: uid,
-                    isAdmin,
-                    userData
+                    userData,
+                    ownedOrganizations: []
                 }
                 setCurrentUser(authUser)
             } else {
@@ -60,8 +59,16 @@ export function AuthProvider({ children }: any) {
             const userRef = doc(db, "users", currentUser?.id);
             return onSnapshot(userRef, async (userDataDoc) => {
                 const newUserData = fromFirebaseDoc<UserData>(userDataDoc);
-                if (newUserData.currentOrganization !== currentUser.userData?.currentOrganization) {
-
+                console.log('new', newUserData, currentUser)
+                if (newUserData.claimsUpdated && (!currentUser.userData?.claimsUpdated || newUserData.claimsUpdated > currentUser.userData?.claimsUpdated)) {
+                    const result = await auth.currentUser?.getIdTokenResult(true);
+                    const authUser: AuthUser = {
+                        ...currentUser,
+                        userData: newUserData,
+                        ownedOrganizations: (result?.claims?.ownedOrganizations || []) as string[],
+                    }
+                    setCurrentUser(authUser)
+                } else if (newUserData.currentOrganization !== currentUser.userData?.currentOrganization) {
                     const authUser: AuthUser = {
                         ...currentUser,
                         userData: newUserData
@@ -70,7 +77,7 @@ export function AuthProvider({ children }: any) {
                 }
             })
         }
-    }, [db, currentUser])
+    }, [db, currentUser, auth.currentUser])
 
     if (loading) {
         return <Loading />
