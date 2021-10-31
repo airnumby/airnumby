@@ -10,6 +10,7 @@ $transition-speed: 0.4s;
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import "./bootswatch";
 
+
 body,
 html,
 #root {
@@ -43,6 +44,10 @@ a:visited {
   flex: 1;
 }
 
+.flex-2 {
+  flex: 2;
+}
+
 .bold {
   font-weight: bold;
 }
@@ -74,9 +79,15 @@ $login-icon-size: 20px;
 ////////
 
 .navbar-item {
-  padding: 1rem;
+  padding: 1rem 1rem .3rem 1rem;
   transition: background-color $transition-speed;
 }
+
+.sub-item {
+  padding: 0.3rem 1rem 0.3rem 3rem;
+  font-size: smaller;
+}
+
 
 .navbar-icon {
   transition: color $transition-speed;

@@ -14,7 +14,7 @@ import { useText } from './TextContext';
 const initialCharts: ChartOfAccounts = {
     id: '',
     name: '',
-    accounts: new Map()
+    accounts: {}
 }
 
 const orgContext = React.createContext<Organization | null>(null);
@@ -61,7 +61,7 @@ export default function OrganizationProvider(props: Props) {
         if (organization?.chartOfAccount) {
             getDoc(doc(db, 'charts', organization.chartOfAccount)).then(
                 charts => {
-                    const chartOfAccounts = fromFirebaseDoc<ChartOfAccounts>(charts, { mapKeys: ['accounts'] });
+                    const chartOfAccounts = fromFirebaseDoc<ChartOfAccounts>(charts);
                     setCharts(chartOfAccounts);
                 }
             ).catch((e) => {

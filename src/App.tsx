@@ -5,7 +5,7 @@ import {
   Route
 } from "react-router-dom";
 import DashboardPage from './pages/DashboardPage';
-import { CoreNavItems } from './constants/routes';
+import { BookkeepingNavItems, CoreNavItems } from './constants/routes';
 import BookkeepingDashboardPage from './pages/BookkeepingDashboardPage';
 import LoginPage from './pages/LoginPage';
 import { ToastContainer } from 'react-toastify';
@@ -17,6 +17,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import OrganizationProvider from './contexts/OrganizationContext';
 import SignupPage from './pages/SignupPage';
+import BookkeepingNewEntryPage from './pages/BookkeepingNewEntryPage';
 
 function App() {
   return (
@@ -33,9 +34,13 @@ function App() {
                 <SignupPage />
               </PrivateRoute>
 
+              <PrivateRoute path={`/${CoreNavItems.Bookkeeping}/${BookkeepingNavItems.NewEntry}`}>
+                <BookkeepingNewEntryPage />
+              </PrivateRoute>
               <PrivateRoute path={`/${CoreNavItems.Bookkeeping}`}>
                 <BookkeepingDashboardPage />
               </PrivateRoute>
+
               <PrivateRoute>
                 <DashboardPage />
               </PrivateRoute>
