@@ -1,5 +1,6 @@
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
+import Select, { createFilter } from 'react-select'
 import SideNavbar from '../components/SideNavbar';
 import { useCharts } from '../contexts/OrganizationContext';
 import { useText } from '../contexts/TextContext';
@@ -19,9 +20,14 @@ export default function BookkeepingNewEntryPage() {
         }
     });
 
-    const accounts = Array.from(charts.accounts.keys());
+    const accounts = Object.keys(charts.accounts);
 
     const onSubmit: SubmitHandler<FormInput> = data => console.log(data);
+
+    const options = accounts.map(accountNumber => ({
+        value: accountNumber,
+        label: `${accountNumber} - ${charts.accounts[accountNumber].name}`
+    }))
 
     return (
         <div className="d-flex h-100 text-light">
@@ -44,15 +50,27 @@ export default function BookkeepingNewEntryPage() {
                             <label className="form-label flex-1">{text.debit}</label>
                             <label className="form-label flex-1">{text.credit}</label>
                         </div>
-                        <div className="d-flex mb-3">
-                            <select className="selectpicker flex-2">
-                                <option>Mustard</option>
-                                <option>Ketchup</option>
-                                <option>Relish</option>
-                            </select>
+                        <div className="d-flex">
+                            <Select options={options}
+                                filterOption={createFilter({ ignoreAccents: false })}
+                                isSearchable={true}
+                                className="flex-2 text-dark"
+                                theme={theme => ({
+                                    ...theme,
+                                    colors: {
+                                        ...theme.colors,
+                                        primary: 'var(--bs-primary)'
+                                    }
+                                })}
+                            />
 
-                            <input type="number flex-1" className="form-control" />
-                            <input type="number flex-1" className="form-control" />
+                            <input type="number" className="form-control flex-1" />
+                            <input type="number" className="form-control flex-1" />
+                        </div>
+                        <div className="d-flex">
+                            <input type="number" className="form-control flex-2" disabled={true} />
+                            <input type="number" className="form-control flex-1" disabled={true} />
+                            <input type="number" className="form-control flex-1" disabled={true} />
                         </div>
                     </div>
 
