@@ -45,33 +45,53 @@ export default function BookkeepingNewEntryPage() {
                             {...register('bookingDate', { valueAsDate: true })} />
                     </div>
                     <div>
-                        <div className="d-flex">
-                            <label className="form-label flex-2">{text.account}</label>
-                            <label className="form-label flex-1">{text.debit}</label>
-                            <label className="form-label flex-1">{text.credit}</label>
-                        </div>
-                        <div className="d-flex">
-                            <Select options={options}
-                                filterOption={createFilter({ ignoreAccents: false })}
-                                isSearchable={true}
-                                className="flex-2 text-dark"
-                                theme={theme => ({
-                                    ...theme,
-                                    colors: {
-                                        ...theme.colors,
-                                        primary: 'var(--bs-primary)'
-                                    }
-                                })}
-                            />
+                        <table className="text-light mb-3">
+                            <tr>
+                                <th scope="col">{text.account}</th>
+                                <th scope="col">{text.debit}</th>
+                                <th scope="col">{text.credit}</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Select options={options}
+                                        filterOption={createFilter({ ignoreAccents: false })}
+                                        isSearchable={true}
+                                        className="flex-2 text-dark p-0"
+                                        theme={theme => ({
+                                            ...theme,
+                                            colors: {
+                                                ...theme.colors,
+                                                primary: 'var(--bs-primary)'
+                                            }
+                                        })}
+                                    /></td>
+                                <td className="w-25"><input type="number" className="form-control flex-1 bg-ligth" /></td>
+                                <td className="w-25"><input type="number" className="form-control flex-1" /></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Select options={options}
+                                        filterOption={createFilter({ ignoreAccents: false })}
+                                        isSearchable={true}
+                                        className="flex-2 text-dark p-0"
+                                        theme={theme => ({
+                                            ...theme,
+                                            colors: {
+                                                ...theme.colors,
+                                                primary: 'var(--bs-primary)'
+                                            }
+                                        })}
+                                    /></td>
+                                <td className="w-25"><input type="number" className="form-control flex-1 bg-ligth" /></td>
+                                <td className="w-25"><input type="number" className="form-control flex-1" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="number" className="form-control flex-1 " disabled={true} /></td>
+                                <td className="w-25"><input type="number" className="form-control flex-1 " disabled={true} /></td>
+                                <td className="w-25"><input type="number" className="form-control flex-1" disabled={true} /></td>
+                            </tr>
+                        </table>
 
-                            <input type="number" className="form-control flex-1" />
-                            <input type="number" className="form-control flex-1" />
-                        </div>
-                        <div className="d-flex">
-                            <input type="number" className="form-control flex-2" disabled={true} />
-                            <input type="number" className="form-control flex-1" disabled={true} />
-                            <input type="number" className="form-control flex-1" disabled={true} />
-                        </div>
                     </div>
 
                     <button type="submit" className="btn btn-primary">{text.save}</button>
