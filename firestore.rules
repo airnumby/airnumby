@@ -6,7 +6,7 @@ service cloud.firestore {
     }
 
     function ownsOrganization(orgId) {
-      return false;
+      return orgId in request.auth.token.ownedOrganizations || [];
     }
 
     match /{document=**} {

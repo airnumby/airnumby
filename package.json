@@ -29,7 +29,7 @@
     "start-local": "export REACT_APP_EMULATORS=true && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "emulators": "firebase emulators:start",
+    "emulators": "firebase emulators:start --import=./emulators_data --export-on-exit",
     "deploy": "npm run build && firebase deploy",
     "seed-charts": "ts-node scripts/seed-charts.ts"
   },
